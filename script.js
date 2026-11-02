@@ -124,3 +124,112 @@ clearButton.addEventListener("click", clearFavorites);
 loadFavorites();
 }
 });
+// Sweet Crumbs Bakery - Contact Form Validation
+
+// Display an error message beside a field
+function showFieldError(fieldId, message) {
+const field = document.getElementById(fieldId);
+const error = document.getElementById(fieldId + "Error");
+
+if (field && error) {
+error.textContent = message;
+
+if (message) {
+field.setAttribute("aria-invalid", "true");
+} else {
+field.removeAttribute("aria-invalid");
+}
+}
+}
+
+// Check the name field
+function validateName() {
+const name = document.getElementById("name").value.trim();
+
+if (name.length === 0) {
+showFieldError("name", "Please enter your name.");
+return false;
+}
+
+if (name.length < 2) {
+showFieldError("name", "Name must be at least 2 characters.");
+return false;
+}
+
+showFieldError("name", "");
+return true;
+}
+
+// Check the email field
+function validateEmail() {
+const email = document.getElementById("email").value.trim();
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (email.length === 0) {
+showFieldError("email", "Please enter your email address.");
+return false;
+}
+
+if (!emailPattern.test(email)) {
+showFieldError("email", "Please enter a valid email address.");
+return false;
+}
+
+showFieldError("email", "");
+return true;
+}
+
+// Check the message field
+function validateMessage() {
+const message = document.getElementById("message").value.trim();
+
+if (message.length === 0) {
+showFieldError("message", "Please enter a message.");
+return false;
+}
+
+if (message.length < 10) {
+showFieldError("message", "Message must be at least 10 characters.");
+return false;
+}
+
+showFieldError("message", "");
+return true;
+}
+
+// Validate the complete contact form
+function validateContactForm(event) {
+event.preventDefault();
+
+const nameValid = validateName();
+const emailValid = validateEmail();
+const messageValid = validateMessage();
+
+const status = document.getElementById("form-status");
+
+if (nameValid && emailValid && messageValid) {
+status.textContent =
+"Your information is valid! This is a demo, so your message was not sent.";
+} else {
+status.textContent =
+"Please correct the highlighted errors before continuing.";
+}
+}
+
+// Activate form validation
+document.addEventListener("DOMContentLoaded", function() {
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+contactForm.addEventListener("submit", validateContactForm);
+
+document.getElementById("name")
+.addEventListener("input", validateName);
+
+document.getElementById("email")
+.addEventListener("input", validateEmail);
+
+document.getElementById("message")
+.addEventListener("input", validateMessage);
+}
+});
